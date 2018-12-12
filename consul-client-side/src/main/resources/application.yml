@@ -1,0 +1,15 @@
+server:
+  port: 8807
+spring:
+  application:
+    name: CONSUL-CLIENT-SIDE
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        tags: foo=bar, baz
+        instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+logging:
+  level:
+    org.springframework: debug

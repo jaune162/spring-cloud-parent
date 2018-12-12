@@ -1,0 +1,39 @@
+server:
+  port: 8808
+spring:
+  application:
+    name: GATEWAY
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        tags: gateway
+        instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+      - id: myapi
+        uri: lb://CONSUL-CLIENT-SIDE
+        predicates:
+          - name: Path
+            args:
+              pattern: /myapi-service/**
+        filters:
+          - name: RewritePath
+            args:
+              regexp: /myapi-service/(?<remaining>.*)
+              replacement: /${remaining}
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health, info, gateway
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
