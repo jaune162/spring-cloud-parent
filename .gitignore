@@ -1,5 +1,6 @@
 /target/
-
+*.class
+**/target
 ### STS ###
 .apt_generated
 .classpath

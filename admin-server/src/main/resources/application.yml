@@ -1,0 +1,24 @@
+server:
+  port: 8181
+spring:
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        server-addr: ${spring.cloud.nacos.server-addr}
+      discovery:
+        server-addr: ${spring.cloud.nacos.server-addr}
+  application:
+    name: admin-server
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: false
+    restart:
+      enabled: false
+    health:
+      show-details: always
